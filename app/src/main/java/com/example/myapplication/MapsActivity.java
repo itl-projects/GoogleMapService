@@ -105,6 +105,7 @@ com.google.android.gms.location.LocationListener{
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
                 Log.e("TAG", "Place: " + place.getName() + ", " + place.getId());
+                mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(place.getLatLng()).title(place.getName().toString()));
             }
 
@@ -207,6 +208,7 @@ com.google.android.gms.location.LocationListener{
         // Add a marker in Sydney and move the camera
         if(latLng!=null)
         {
+            mMap.clear();
             mMap.addMarker(new MarkerOptions().position(latLng).title("Marker On Current Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,14F));
 
@@ -227,7 +229,8 @@ com.google.android.gms.location.LocationListener{
         location=LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
          if(location==null)
          {
-             startLocationUpdates();
+             Toast.makeText(this,"Location Detected",Toast.LENGTH_LONG).show();
+            // startLocationUpdates();
          }
          else {
              Toast.makeText(this,"Location Not Detected",Toast.LENGTH_LONG).show();
@@ -235,7 +238,7 @@ com.google.android.gms.location.LocationListener{
     }
 
     private void startLocationUpdates() {
-        locationRequest=LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setMaxWaitTime(900000);
+        locationRequest=LocationRequest.create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED)
         {
